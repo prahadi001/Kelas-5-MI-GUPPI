@@ -1,0 +1,11 @@
+kelas5-blog/
+  index.html
+  pengumuman.html
+  materi.html
+  tugas.html
+  galeri.html
+  jadwal.html
+  profil.html
+  kontak.html
+  assets/
+    style.css
