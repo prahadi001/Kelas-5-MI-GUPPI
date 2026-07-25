@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kelas 5 MI GUPPI Sumberwulan 2026/2027</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="brand">
+        <div>
+          <h1>Kelas 5 MI GUPPI Sumberwulan 2026/2027</h1>
+          <p>Kec. Selomerto, Kab. Wonosobo</p>
+        </div>
+        <div class="badge">Blog Kelas • Otomatis</div>
+      </div>
+
+      <nav class="nav">
+        <a class="active" href="index.html">Beranda</a>
+        <a href="pengumuman.html">Pengumuman</a>
+        <a href="materi.html">Materi</a>
+        <a href="tugas.html">Tugas</a>
+        <a href="galeri.html">Galeri</a>
+        <a href="jadwal.html">Jadwal</a>
+        <a href="profil.html">Profil Kelas</a>
+        <a href="kontak.html">Kontak</a>
+        <a href="arsip.html">Arsip</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container grid">
+      <section class="card">
+        <h2>Selamat datang</h2>
+        <p>
+          Website ini digunakan untuk berbagi <b>pengumuman</b>, <b>materi</b>, <b>tugas</b>, jadwal, dan dokumentasi kegiatan
+          Kelas 5 MI GUPPI Sumberwulan tahun pelajaran 2026/2027.
+        </p>
+        <p class="meta">
+          Bagian “Posting terbaru” di bawah ini otomatis diambil dari <code>posts/posts.json</code>.
+        </p>
+
+        <h3>Posting terbaru</h3>
+        <ul id="latestList" class="list">
+          <li>Memuat posting terbaru...</li>
+        </ul>
+
+        <p>
+          <a class="btn" href="arsip.html">Buka Arsip</a>
+        </p>
+      </section>
+
+      <aside class="card">
+        <h2>Info cepat</h2>
+        <ul>
+          <li><span class="tag">Pengumuman</span> Info kegiatan & agenda</li>
+          <li><span class="tag">Materi</span> Ringkasan pelajaran</li>
+          <li><span class="tag">Tugas</span> Instruksi & tenggat</li>
+        </ul>
+
+        <h3>Kontak</h3>
+        <p class="meta">WhatsApp wali kelas:</p>
+        <p><a class="btn" href="https://wa.me/6285842532474" target="_blank" rel="noopener">Chat WA</a></p>
+        <p class="small">Nomor: 085842532474</p>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      © 2026/2027 • Kelas 5 MI GUPPI Sumberwulan
+    </div>
+  </footer>
+
+  <script>
+    const latestEl = document.getElementById("latestList");
+
+    function fmtDate(iso) {
+      const [y, m, d] = iso.split("-").map(Number);
+      const months = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
+      return `${d} ${months[m-1]} ${y}`;
+    }
+
+    fetch("posts/posts.json")
+      .then(r => r.json())
+      .then(all => {
+        const posts = (Array.isArray(all) ? all : [])
+          // urutkan berdasarkan date terbaru
+          .sort((a,b) => (b.date || "").localeCompare(a.date || ""))
+          .slice(0, 5);
+
+        if (!posts.length) {
+          latestEl.innerHTML = "<li>Belum ada posting.</li>";
+          return;
+        }
+
+        latestEl.innerHTML = posts.map(p => {
+          const meta = (p.category === "Tugas" && p.due)
+            ? `Tugas • Tenggat: ${fmtDate(p.due)}`
+            : `${p.category} • ${fmtDate(p.date)}`;
+
+          return `
+            <li>
+              <span class="tag">${p.category}</span>
+              <b><a href="${p.url}">${p.title}</a></b><br />
+              <span class="meta">${meta}</span>
+              <p>${p.summary || ""}</p>
+            </li>
+          `;
+        }).join("");
+      })
+      .catch(() => {
+        latestEl.innerHTML = "<li>Gagal memuat. Pastikan <code>posts/posts.json</code> ada.</li>";
+      });
+  </script>
+</body>
+</html>
