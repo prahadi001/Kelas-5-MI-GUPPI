@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kelas 5 MI GUPPI Sumberwulan 2026/2027</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="brand">
+        <div>
+          <h1>Kelas 5 MI GUPPI Sumberwulan 2026/2027</h1>
+          <p>Kec. Selomerto, Kab. Wonosobo</p>
+        </div>
+        <div class="badge">Blog Kelas • Info • Materi • Tugas</div>
+      </div>
+
+      <nav class="nav">
+        <a class="active" href="index.html">Beranda</a>
+        <a href="pengumuman.html">Pengumuman</a>
+        <a href="materi.html">Materi</a>
+        <a href="tugas.html">Tugas</a>
+        <a href="galeri.html">Galeri</a>
+        <a href="jadwal.html">Jadwal</a>
+        <a href="profil.html">Profil Kelas</a>
+        <a href="kontak.html">Kontak</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container grid">
+      <section class="card">
+        <h2>Selamat datang</h2>
+        <p>
+          Website ini digunakan untuk berbagi <b>pengumuman</b>, <b>materi</b>, <b>tugas</b>, jadwal, dan dokumentasi kegiatan
+          Kelas 5 MI GUPPI Sumberwulan tahun pelajaran 2026/2027.
+        </p>
+        <p class="meta">Silakan pilih menu di atas. Informasi terbaru biasanya ada di halaman Pengumuman & Tugas.</p>
+
+        <h3>Info cepat</h3>
+        <ul>
+          <li><span class="tag">Pengumuman</span> Update kegiatan kelas & sekolah</li>
+          <li><span class="tag">Materi</span> Ringkasan pelajaran + tautan/unduhan</li>
+          <li><span class="tag">Tugas</span> Instruksi tugas + tenggat</li>
+        </ul>
+
+        <p>
+          <a class="btn" href="pengumuman.html">Lihat pengumuman terbaru</a>
+        </p>
+
+        <p class="small">
+          Tips: jika kamu ingin posting rutin, kita bisa buat format “posting” yang tinggal copy-paste.
+        </p>
+      </section>
+
+      <aside class="card">
+        <h2>Ringkasan terbaru</h2>
+        <p class="meta">Contoh isi awal (silakan nanti diganti sesuai kebutuhan).</p>
+
+        <ul class="list">
+          <li>
+            <b>Pengumuman:</b> Masa orientasi & pembagian kelompok belajar<br />
+            <span class="meta">Terbit: 25 Juli 2026</span>
+          </li>
+          <li>
+            <b>Materi:</b> Matematika – Pecahan (pengantar)<br />
+            <span class="meta">Terbit: 25 Juli 2026</span>
+          </li>
+          <li>
+            <b>Tugas:</b> Bahasa Indonesia – Menulis paragraf<br />
+            <span class="meta">Tenggat contoh: 30 Juli 2026</span>
+          </li>
+        </ul>
+
+        <h3>Kontak</h3>
+        <p class="meta">WhatsApp wali kelas:</p>
+        <p><a class="btn" href="https://wa.me/6285842532474" target="_blank" rel="noopener">Chat WA</a></p>
+        <p class="small">Nomor: 085842532474</p>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      © 2026/2027 • Kelas 5 MI GUPPI Sumberwulan • Dibuat dengan template statis
+    </div>
+  </footer>
+</body>
+</html>
