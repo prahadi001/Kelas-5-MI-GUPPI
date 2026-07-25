@@ -14,7 +14,7 @@
           <h1>Kelas 5 MI GUPPI Sumberwulan 2026/2027</h1>
           <p>Kec. Selomerto, Kab. Wonosobo</p>
         </div>
-        <div class="badge">Arsip Posting</div>
+        <div class="badge">Arsip Posting (Otomatis)</div>
       </div>
 
       <nav class="nav">
@@ -35,73 +35,32 @@
     <div class="container grid">
       <section class="card">
         <h2>Arsip (Semua Posting)</h2>
-        <p class="meta">
-          Kumpulan posting Pengumuman, Materi, dan Tugas. Urutan dari yang terbaru.
-        </p>
+        <p class="meta">Daftar diambil otomatis dari <code>posts/posts.json</code>.</p>
 
-        <ul class="list">
-          <li>
-            <span class="tag">Pengumuman</span>
-            <b><a href="posts/2026-07-26-jadwal-piket.html">Jadwal piket kelas</a></b><br />
-            <span class="meta">26 Juli 2026</span>
-            <p>Informasi pelaksanaan piket dan catatan penting.</p>
-          </li>
+        <div class="meta" style="margin:10px 0;">
+          Filter:
+          <a href="#" data-filter="Semua">Semua</a> •
+          <a href="#" data-filter="Pengumuman">Pengumuman</a> •
+          <a href="#" data-filter="Materi">Materi</a> •
+          <a href="#" data-filter="Tugas">Tugas</a>
+        </div>
 
-          <li>
-            <span class="tag">Pengumuman</span>
-            <b><a href="posts/2026-07-25-orientasi-awal-tahun.html">Orientasi awal tahun & tata tertib kelas</a></b><br />
-            <span class="meta">25 Juli 2026</span>
-            <p>Agenda orientasi dan perlengkapan yang perlu dibawa.</p>
-          </li>
-
-          <li>
-            <span class="tag">Materi</span>
-            <b><a href="posts/2026-07-25-matematika-pecahan.html">Matematika: Pecahan (pengantar)</a></b><br />
-            <span class="meta">25 Juli 2026</span>
-            <p>Pengertian pecahan, contoh, dan latihan ringan.</p>
-          </li>
-
-          <li>
-            <span class="tag">Materi</span>
-            <b><a href="posts/2026-07-25-pai-adab-belajar.html">PAI: Adab belajar (ringkas)</a></b><br />
-            <span class="meta">25 Juli 2026</span>
-            <p>Ringkasan adab belajar dan refleksi singkat.</p>
-          </li>
-
-          <li>
-            <span class="tag">Tugas</span>
-            <b><a href="posts/2026-07-25-tugas-bindo-paragraf.html">Tugas Bahasa Indonesia: Paragraf “Cita-citaku”</a></b><br />
-            <span class="meta">Tenggat: 30 Juli 2026</span>
-            <p>Tulis 1 paragraf (5–7 kalimat) dengan tanda baca yang benar.</p>
-          </li>
-
-          <li>
-            <span class="tag">Tugas</span>
-            <b><a href="posts/2026-07-25-tugas-mtk-latihan-pecahan.html">Tugas Matematika: Latihan pecahan (20 soal)</a></b><br />
-            <span class="meta">Tenggat: 31 Juli 2026</span>
-            <p>20 soal: pembilang/penyebut, pecahan senilai, dan perbandingan pecahan.</p>
-          </li>
+        <ul id="postList" class="list">
+          <li>Memuat arsip...</li>
         </ul>
       </section>
 
       <aside class="card">
-        <h2>Filter cepat</h2>
-        <p class="meta">Klik untuk langsung ke kategori:</p>
-
-        <p>
-          <a class="btn" href="pengumuman.html">Pengumuman</a>
-        </p>
-        <p>
-          <a class="btn" href="materi.html">Materi</a>
-        </p>
-        <p>
-          <a class="btn" href="tugas.html">Tugas</a>
-        </p>
-
-        <h3>Kontak</h3>
+        <h2>Kontak</h2>
         <p class="meta">WhatsApp wali kelas:</p>
         <p><a class="btn" href="https://wa.me/6285842532474" target="_blank" rel="noopener">Chat WA</a></p>
         <p class="small">Nomor: 085842532474</p>
+
+        <h3>Catatan</h3>
+        <p class="small">
+          Untuk tambah posting baru: buat file HTML di folder <code>posts/</code>,
+          lalu tambahkan 1 item di <code>posts/posts.json</code>.
+        </p>
       </aside>
     </div>
   </main>
@@ -109,5 +68,62 @@
   <footer class="footer">
     <div class="container">© 2026/2027 • Kelas 5 MI GUPPI Sumberwulan</div>
   </footer>
+
+  <script>
+    const listEl = document.getElementById("postList");
+    let allPosts = [];
+    let currentFilter = "Semua";
+
+    function fmtDate(iso) {
+      // iso: YYYY-MM-DD
+      const [y, m, d] = iso.split("-").map(Number);
+      const months = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
+      return `${d} ${months[m-1]} ${y}`;
+    }
+
+    function render() {
+      const posts = allPosts
+        .filter(p => currentFilter === "Semua" ? true : p.category === currentFilter)
+        .sort((a,b) => (b.date || "").localeCompare(a.date || ""));
+
+      if (!posts.length) {
+        listEl.innerHTML = "<li>Tidak ada posting untuk filter ini.</li>";
+        return;
+      }
+
+      listEl.innerHTML = posts.map(p => {
+        const meta = p.category === "Tugas" && p.due
+          ? `Tenggat: ${fmtDate(p.due)}`
+          : `Tanggal: ${fmtDate(p.date)}`;
+
+        return `
+          <li>
+            <span class="tag">${p.category}</span>
+            <b><a href="${p.url}">${p.title}</a></b><br />
+            <span class="meta">${meta}</span>
+            <p>${p.summary || ""}</p>
+          </li>
+        `;
+      }).join("");
+    }
+
+    document.querySelectorAll("[data-filter]").forEach(a => {
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        currentFilter = a.getAttribute("data-filter");
+        render();
+      });
+    });
+
+    fetch("posts/posts.json")
+      .then(r => r.json())
+      .then(data => {
+        allPosts = Array.isArray(data) ? data : [];
+        render();
+      })
+      .catch(() => {
+        listEl.innerHTML = "<li>Gagal memuat arsip. Pastikan file <code>posts/posts.json</code> ada.</li>";
+      });
+  </script>
 </body>
 </html>
