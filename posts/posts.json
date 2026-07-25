@@ -1,5 +1,12 @@
 [
   {
+  "title": "Pengumuman baru",
+  "date": "2026-08-01",
+  "category": "Pengumuman",
+  "summary": "Ringkas isi pengumuman.",
+  "url": "posts/2026-08-01-pengumuman-baru.html"
+}
+  {
     "title": "Jadwal piket kelas",
     "date": "2026-07-26",
     "category": "Pengumuman",
