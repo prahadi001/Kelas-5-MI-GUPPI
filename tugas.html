@@ -1,15 +1,104 @@
-<ul class="list">
-  <li>
-    <span class="tag">Bahasa Indonesia</span>
-    <b><a href="posts/2026-07-25-tugas-bindo-paragraf.html">Tugas: Menulis paragraf “Cita-citaku”</a></b><br />
-    <span class="meta">Tenggat contoh: 30 Juli 2026</span>
-    <p>Menulis 1 paragraf (5–7 kalimat) dengan tanda baca yang benar.</p>
-  </li>
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tugas • Kelas 5 MI GUPPI Sumberwulan</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="brand">
+        <div>
+          <h1>Kelas 5 MI GUPPI Sumberwulan 2026/2027</h1>
+          <p>Kec. Selomerto, Kab. Wonosobo</p>
+        </div>
+        <div class="badge">Tugas (Otomatis)</div>
+      </div>
 
-  <li>
-    <span class="tag">Matematika</span>
-    <b><a href="posts/2026-07-25-tugas-mtk-latihan-pecahan.html">Tugas: Latihan pecahan</a></b><br />
-    <span class="meta">Tenggat contoh: 31 Juli 2026</span>
-    <p>Kerjakan latihan pecahan (jumlah soal bisa disesuaikan).</p>
-  </li>
-</ul>
+      <nav class="nav">
+        <a href="index.html">Beranda</a>
+        <a href="pengumuman.html">Pengumuman</a>
+        <a href="materi.html">Materi</a>
+        <a class="active" href="tugas.html">Tugas</a>
+        <a href="galeri.html">Galeri</a>
+        <a href="jadwal.html">Jadwal</a>
+        <a href="profil.html">Profil Kelas</a>
+        <a href="kontak.html">Kontak</a>
+        <a href="arsip.html">Arsip</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container grid">
+      <section class="card">
+        <h2>Daftar Tugas</h2>
+        <p class="meta">Daftar diambil otomatis dari <code>posts/posts.json</code>.</p>
+
+        <ul id="postList" class="list">
+          <li>Memuat tugas...</li>
+        </ul>
+      </section>
+
+      <aside class="card">
+        <h2>Catatan</h2>
+        <ul>
+          <li>Kerjakan dengan rapi.</li>
+          <li>Kumpulkan sesuai tenggat.</li>
+          <li>Jika sakit/izin, kabari wali kelas.</li>
+        </ul>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">© 2026/2027 • Kelas 5 MI GUPPI Sumberwulan</div>
+  </footer>
+
+  <script>
+    const listEl = document.getElementById("postList");
+
+    function fmtDate(iso) {
+      const [y, m, d] = iso.split("-").map(Number);
+      const months = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
+      return `${d} ${months[m-1]} ${y}`;
+    }
+
+    fetch("posts/posts.json")
+      .then(r => r.json())
+      .then(all => {
+        const posts = (Array.isArray(all) ? all : [])
+          .filter(p => p.category === "Tugas")
+          // urutkan: yang punya due paling cepat dulu, kalau tidak ada due pakai date terbaru
+          .sort((a,b) => {
+            const ad = a.due || "9999-99-99";
+            const bd = b.due || "9999-99-99";
+            if (ad !== bd) return ad.localeCompare(bd);
+            return (b.date || "").localeCompare(a.date || "");
+          });
+
+        if (!posts.length) {
+          listEl.innerHTML = "<li>Belum ada tugas.</li>";
+          return;
+        }
+
+        listEl.innerHTML = posts.map(p => {
+          const meta = p.due ? `Tenggat: ${fmtDate(p.due)}` : `Tanggal: ${fmtDate(p.date)}`;
+          return `
+            <li>
+              <span class="tag">Tugas</span>
+              <b><a href="${p.url}">${p.title}</a></b><br />
+              <span class="meta">${meta}</span>
+              <p>${p.summary || ""}</p>
+            </li>
+          `;
+        }).join("");
+      })
+      .catch(() => {
+        listEl.innerHTML = "<li>Gagal memuat. Pastikan <code>posts/posts.json</code> ada.</li>";
+      });
+  </script>
+</body>
+</html>
